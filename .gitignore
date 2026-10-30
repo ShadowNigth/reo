@@ -1,0 +1,5 @@
+game/.godot/*
+!game/.godot/global_script_class_cache.cfg
+__pycache__/
+*.pyc
+*.tmp

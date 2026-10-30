@@ -1,0 +1,85 @@
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object/object.cpp:2514)
+Godot Engine v4.5.stable.official.876b29033 - https://godotengine.org
+
+UMBRAL_SMOKE_BEGIN
+PASS 29 downloaded weapon variants
+PASS Model exists: bat
+PASS Model exists: knife
+PASS Model exists: machete
+PASS Model exists: pistol
+PASS Model exists: silenced
+PASS Model exists: shotgun
+PASS Model exists: breacher
+PASS Model exists: smg
+PASS Model exists: uzi
+PASS Model exists: uzi_s
+PASS Model exists: uzi_l
+PASS Model exists: uzi_ls
+PASS Model exists: uzi_g
+PASS Model exists: uzi_gs
+PASS Model exists: uzi_gl
+PASS Model exists: uzi_gls
+PASS Model exists: rifle
+PASS Model exists: lmg
+PASS Model exists: sniper
+PASS Model exists: sniper_c
+PASS Model exists: launcher
+PASS Model exists: launcher_m
+PASS Model exists: launcher_r
+PASS Model exists: launcher_s
+PASS Model exists: grenadier
+PASS Model exists: flame
+PASS Model exists: flame_h
+PASS Model exists: pulse
+PASS Model exists: repeater
+PASS Exactly three inventory slots
+PASS Melee slot rejects pistol
+PASS Gun slot rejects melee
+PASS Pistol can become shotgun
+PASS Third slot accepts rifle
+PASS Run starts with melee
+PASS Scarce starting ammunition
+PASS Trigger consumes one round
+PASS Reload has a real delay
+PASS Reload transfers, never creates ammo
+PASS Equip third weapon
+PASS Reject incompatible swap
+PASS Replace pistol with LMG
+PASS Replacement persists
+PASS Glass breaks under damage
+PASS Wall survives partial damage
+PASS Wall breaks cumulatively
+PASS Animated enemy spawns in physics world
+PASS Enemy receives melee damage
+PASS Mass-weighted melee impulse
+PASS Enemy death transition
+PASS Death activates articulated physical skeleton
+PASS Ragdoll joints move under gravity and impulse
+PASS Ragdoll simulation remains live
+PASS At most one supply crate before cooldown
+PASS Supply spawn is a singleton
+PASS Bounded ammo drops
+PASS Spawn director continues indefinitely
+PASS No immediate spawn repetition 1
+PASS No immediate spawn repetition 2
+PASS No immediate spawn repetition 3
+PASS No immediate spawn repetition 4
+PASS No immediate spawn repetition 5
+PASS No immediate spawn repetition 6
+PASS No immediate spawn repetition 7
+PASS No immediate spawn repetition 8
+PASS No immediate spawn repetition 9
+PASS No immediate spawn repetition 10
+PASS No immediate spawn repetition 11
+PASS No immediate spawn repetition 12
+PASS No immediate spawn repetition 13
+PASS No immediate spawn repetition 14
+PASS No immediate spawn repetition 15
+PASS No immediate spawn repetition 16
+PASS No immediate spawn repetition 17
+PASS No immediate spawn repetition 18
+PASS No immediate spawn repetition 19
+PASS Player damage
+PASS Death menu state
+UMBRAL_SMOKE_END checks=79 failures=0
