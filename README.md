@@ -75,10 +75,18 @@ Con un binario de Godot 4.5+ disponible en el PATH:
 godot --headless --path game --quit-after 120 -- --smoke-test
 ```
 
+Regresión de arranque recomendada con plantillas **debug** (las release no imprimen todos los errores de GDScript):
+
+```bash
+godot --headless --path game --quit-after 10
+```
+
+Debe terminar sin `SCRIPT ERROR`, sin errores de navegación y sin `ObjectDB instances leaked`.
+
 Resultado esperado:
 
 ```text
-UMBRAL_SMOKE_END checks=79 failures=0
+UMBRAL_SMOKE_END checks=82 failures=0
 ```
 
 La prueba cubre catálogo de armas, ranuras, munición inicial, disparo, recarga, reemplazo, destrucción, daño enemigo, ragdoll, caja única, munición, spawner sin repetición inmediata, daño al jugador y muerte.

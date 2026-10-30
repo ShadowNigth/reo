@@ -5,9 +5,12 @@ var ui_voice: AudioStreamPlayer
 var ambience: AudioStreamPlayer
 var cursor := 0
 var last_played := {}
+var enabled := true
 
 func setup(g: Node) -> void:
 	game = g
+	# The dummy headless audio driver keeps Ogg playbacks alive at exit; skip it in CI.
+	enabled = DisplayServer.get_name() != "headless"
 	for i in range(20):
 		var p := AudioStreamPlayer3D.new()
 		p.max_distance = 42.0
@@ -19,7 +22,14 @@ func setup(g: Node) -> void:
 	ambience.stream = game.assets.random_sound("ambient_")
 	ambience.volume_db = -19.0
 	ambience.finished.connect(func(): ambience.play())
-	ambience.play()
+	if enabled: ambience.play()
+
+func _exit_tree() -> void:
+	# Release Ogg playbacks before the audio server shuts down (debug builds leak otherwise).
+	if is_instance_valid(ambience): ambience.stop(); ambience.stream=null
+	if is_instance_valid(ui_voice): ui_voice.stop(); ui_voice.stream=null
+	for p in voices:
+		if is_instance_valid(p): p.stop(); p.stream=null
 
 func stream_for(key: String) -> AudioStream:
 	var a: Node = game.assets
@@ -48,6 +58,7 @@ func stream_for(key: String) -> AudioStream:
 	return null
 
 func play_at(key: String, pos: Vector3, pitch: float = 0.0, volume: float = -5.0) -> void:
+	if not enabled: return
 	var now := Time.get_ticks_msec()
 	if now - int(last_played.get(key,-1000)) < 45: return
 	last_played[key] = now
@@ -60,5 +71,6 @@ func play_at(key: String, pos: Vector3, pitch: float = 0.0, volume: float = -5.0
 	p.play()
 
 func play_ui(key: String, volume: float = -9.0) -> void:
+	if not enabled: return
 	var s := stream_for(key)
 	if s: ui_voice.stream = s; ui_voice.volume_db = volume; ui_voice.play()

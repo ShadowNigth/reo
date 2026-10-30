@@ -8,6 +8,10 @@ func check(condition: bool,label: String) -> void:
 
 func run(game: Node) -> void:
 	print("UMBRAL_SMOKE_BEGIN")
+	check(is_instance_valid(game.hud),"HUD exists before first weapon equip")
+	check(is_instance_valid(game.player.weapon_visual),"Initial melee viewmodel is equipped")
+	game.fx.burst(game.player.global_position,"blood",8)
+	check(game.fx.emitters[0].emitting,"Particle burst restarts without CPUParticles.stop")
 	check(game.catalog.WEAPONS.size()>=29,"29 downloaded weapon variants")
 	for w in game.catalog.WEAPONS:
 		check(FileAccess.file_exists(game.catalog.model_path(w.id)),"Model exists: "+w.id)
@@ -78,4 +82,4 @@ func run(game: Node) -> void:
 	check(game.state=="dead","Death menu state")
 	print("UMBRAL_SMOKE_END checks=%d failures=%d" % [checks,failures.size()])
 	for f in failures: print("FAILURE: "+f)
-	game.quit(1 if not failures.is_empty() else 0)
+	get_tree().quit(1 if not failures.is_empty() else 0)

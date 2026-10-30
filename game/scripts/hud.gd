@@ -42,7 +42,7 @@ func setup(g: Node) -> void:
 	root=Control.new(); root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); root.mouse_filter=Control.MOUSE_FILTER_IGNORE; add_child(root)
 	_build_gameplay(); _build_panel()
 
-func _font(size: int = 20,bold: bool=false) -> Font:
+func _font(_size: int = 20,bold: bool=false) -> Font:
 	return game.assets.bold if bold else game.assets.font
 
 func _label(text: String,size: int=20,color: Color=PAPER,bold: bool=false) -> Label:
@@ -229,7 +229,8 @@ func toast(text: String) -> void:
 	toast_text.text=text; toast_time=4.0
 
 func _time() -> String:
-	return "%02d:%02d" % [int(game.stats.time)/60,int(game.stats.time)%60]
+	var seconds := int(game.stats.time)
+	return "%02d:%02d" % [floori(seconds / 60.0),seconds % 60]
 
 func _process(delta: float) -> void:
 	if not game or not game.player or not health: return

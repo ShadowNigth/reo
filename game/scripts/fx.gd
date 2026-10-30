@@ -46,7 +46,7 @@ func _process(delta: float) -> void:
 
 func burst(pos: Vector3, kind: String, amount: int = 14) -> void:
 	var p := emitters[emitter_cursor]; emitter_cursor=(emitter_cursor+1)%emitters.size()
-	p.stop(); p.global_position=pos
+	p.emitting=false; p.global_position=pos
 	p.amount = clampi(amount,1,48)
 	var mat := p.material_override as StandardMaterial3D
 	mat.albedo_texture = game.assets.texture("res://assets/fx/%s" % ("smoke_01.png" if kind == "smoke" else ("star_08.png" if kind=="spark" else "circle_05.png")))
@@ -109,6 +109,10 @@ func _expire_body(body: Node) -> void:
 
 func tracer(from: Vector3,to: Vector3,color: Color = Color(1.0,0.68,0.28)) -> void:
 	var t:=tracer_pool[tracer_cursor]; tracer_cursor=(tracer_cursor+1)%tracer_pool.size()
+	var mat := t.material_override as StandardMaterial3D
+	if mat:
+		mat.albedo_color=color
+		mat.emission=color
 	var length:=from.distance_to(to)
 	if length<0.01: return
 	t.visible=true; t.global_position=(from+to)*0.5

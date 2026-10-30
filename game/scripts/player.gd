@@ -50,7 +50,6 @@ func setup(g: Node) -> void:
 	flashlight.shadow_enabled=true; camera.add_child(flashlight)
 	muzzle_light=OmniLight3D.new(); muzzle_light.light_color=Color(1.0,0.57,0.2); muzzle_light.light_energy=0.0; muzzle_light.omni_range=5.0
 	camera.add_child(muzzle_light); muzzle_light.position=Vector3(0.2,-0.15,-1.1)
-	equip(0,true)
 
 func current() -> Dictionary:
 	return slots[slot]
@@ -71,7 +70,7 @@ func equip(index: int, force: bool = false) -> void:
 	weapon_root.add_child(weapon_visual)
 	_normalize_weapon(weapon_visual,w)
 	game.audio.play_ui("switch",-15.0)
-	game.hud.refresh_inventory()
+	if is_instance_valid(game.hud): game.hud.refresh_inventory()
 
 func _normalize_weapon(root: Node3D,w: Dictionary) -> void:
 	var box:=AABB(); var first:=true
@@ -84,7 +83,6 @@ func _normalize_weapon(root: Node3D,w: Dictionary) -> void:
 		for s in range(mi.mesh.get_surface_count()):
 			var orig:=mi.mesh.surface_get_material(s)
 			var m: StandardMaterial3D = orig.duplicate() if orig is StandardMaterial3D else game.assets.material(Color(0.21,0.24,0.23),0.0,0.65)
-			m.no_depth_test=true
 			m.metallic=0.6; m.roughness=0.43
 			mi.set_surface_override_material(s,m)
 		mi.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -305,7 +303,7 @@ func replace_slot(index: int,id: String) -> bool:
 	slots[index]={"id":id,"mag":int(w.mag),"reserve":int(w.reserve)}
 	reload_left=0.0; swing_left=0.0
 	equip(index,true)
-	game.hud.refresh_inventory()
+	if is_instance_valid(game.hud): game.hud.refresh_inventory()
 	return true
 
 func throw_grenade() -> void:

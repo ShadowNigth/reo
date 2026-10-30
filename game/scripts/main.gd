@@ -32,6 +32,7 @@ func _ready() -> void:
 	player.rotation.y=0.15
 	director=preload("res://scripts/director.gd").new(); director.name="Director"; add_child(director); director.setup(self)
 	hud=preload("res://scripts/hud.gd").new(); hud.name="HUD"; add_child(hud); hud.setup(self)
+	player.equip(0,true)
 	apply_settings()
 	state="menu"; hud.show_menu()
 	Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
@@ -69,7 +70,7 @@ func _browser_test(args: Array) -> String:
 		"safe": player.invulnerable=9999.0; director.intermission=9999.0
 		"nav":
 			var path:=NavigationServer3D.map_get_path(world.nav.get_navigation_map(),player.global_position,Vector3(-24,0,-13),true)
-			return _browser_reply(JSON.stringify({"points":path.size(),"last":_v(path[-1]) if not path.is_empty() else ""}))
+			return _browser_reply(JSON.stringify({"points":path.size(),"last":_v(path[-1]) if not path.is_empty() else []}))
 	return _browser_reply("ok")
 
 func _browser_reply(value: String) -> String:
@@ -193,7 +194,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func apply_settings() -> void:
 	var low:bool=settings.quality=="low"
 	get_viewport().scaling_3d_scale=0.65 if low else 1.0
-	get_viewport().msaa_3d=Viewport.MSAA_DISABLED if low else Viewport.MSAA_2X
+	get_viewport().msaa_3d=Viewport.MSAA_DISABLED
 	AudioServer.set_bus_volume_db(0,linear_to_db(maxf(0.001,float(settings.volume))))
 	if player: player.sensitivity=0.0022*float(settings.sensitivity)
 	if world:

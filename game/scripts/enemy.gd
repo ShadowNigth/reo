@@ -83,9 +83,9 @@ func _bounds(root: Node) -> AABB:
 		else: result = result.merge(box)
 	return result
 
-func _play(name: String, blend: float = 0.12) -> void:
-	if anim and anim.has_animation(name):
-		anim.play(name,blend)
+func _play(anim_name: String, blend: float = 0.12) -> void:
+	if anim and anim.has_animation(anim_name):
+		anim.play(anim_name,blend)
 
 func _physics_process(delta: float) -> void:
 	if not game or not game.is_playing(): return
@@ -218,11 +218,11 @@ func _begin_ragdoll(impulse: Vector3) -> void:
 		var right := pose.basis.x.normalized()
 		if absf(right.dot(up))>0.95: right=pose.basis.z.normalized()
 		var forward := right.cross(up).normalized(); right=up.cross(forward).normalized()
-		var basis := Basis(right,up,forward)
+		var bone_basis := Basis(right,up,forward)
 		var col := CollisionShape3D.new()
 		var capsule := CapsuleShape3D.new(); capsule.radius=radius; capsule.height=maxf(length+radius*0.6,radius*2.1)
 		col.shape=capsule; bone.add_child(col)
-		bone.body_offset=Transform3D(basis,center)
+		bone.body_offset=Transform3D(bone_basis,center)
 		bone.transform=bone.body_offset
 		bone.joint_type=PhysicalBone3D.JOINT_TYPE_CONE if key!="Body" else PhysicalBone3D.JOINT_TYPE_NONE
 		bone.set("joint_constraints/swing_span",35.0 if "Leg" in key else 55.0)

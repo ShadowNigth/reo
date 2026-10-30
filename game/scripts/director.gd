@@ -56,7 +56,7 @@ func start_wave() -> void:
 	pending=mini(150,5+wave*3)
 	wave_points.clear(); recent_points.clear(); last_point=-1
 	var indices:=range(game.world.spawn_points.size()); indices.shuffle()
-	var count:=mini(3+wave/3,7)
+	var count:=mini(3+floori(wave / 3.0),7)
 	# Do not reuse the previous wave's entire active set.
 	if indices.slice(0,count)==previous_wave_points: indices.append(indices.pop_front())
 	wave_points=indices.slice(0,count)
